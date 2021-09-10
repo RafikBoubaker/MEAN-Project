@@ -11,11 +11,7 @@ import { PostsService } from '../posts.service';
 export class PostListComponent implements OnInit , OnDestroy {
 
   //  @Input()  posts: Post[] = [
-  posts: Post[] = [
-    // { title: "hello A", content: "This is the first elem"},
-    // { title: 'hello B', content: 'This is the second elem' },
-    // { title: 'hello C', content: 'This is the third elem' }
- ]
+  posts: Post[] = []
   private postSub : Subscription
   
 
@@ -23,8 +19,8 @@ export class PostListComponent implements OnInit , OnDestroy {
   
   constructor(public postsService: PostsService) { }
 
-  ngOnInit(): void {
-    this.posts = this.postsService.getPosts()
+  ngOnInit() {
+    this.postsService.getPosts()
     this.postSub = this.postsService.getPostUpdateListener().subscribe((posts:Post[]) => {
       this.posts=posts;
     })
