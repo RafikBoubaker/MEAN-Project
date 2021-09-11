@@ -5,7 +5,7 @@
         </mat-expansion-panel-header>
         <p>{{ post.content }}</p>
         <mat-action-row>
-            <button mat-button color="warn">delete Post</button>
+            <button mat-button color="warn" (click)="onDelete(post.id)">delete Post</button>
             <button mat-button color="primary">update Post</button>
         </mat-action-row>
     </mat-expansion-panel>
