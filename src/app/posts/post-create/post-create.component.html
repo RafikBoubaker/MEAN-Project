@@ -1,13 +1,16 @@
 <mat-card>
-    <form (submit)="AddPost(postForm)" #postForm="ngForm">
+   
+    <form (submit)="SavePost(postForm)" #postForm="ngForm">
         <mat-form-field>
-        <input placeholder=" title" name="title" ngModel required #title="ngModel"/>
-        <mat-error *ngIf="title.invalid">please enter a post title</mat-error>
-        <textarea rows="6" name="content" ngModel  required #content="ngModel"></textarea>
-        <mat-error *ngIf="content.invalid">please enter a post content</mat-error>
-       
+            <input matInput type="text" name="title" [ngModel]="post?.title" required minlength="3"
+                placeholder="Post Title" #title="ngModel">
+            <mat-error *ngIf="title.invalid">Please enter a post title.</mat-error>
         </mat-form-field>
-        <button mat-raised-button color="accent" type="submit">Add Post</button>
+        <mat-form-field>
+            <textarea matInput rows="4" name="content" [ngModel]="post?.content" required placeholder="Post Content"
+                #content="ngModel"></textarea>
+            <mat-error *ngIf="content.invalid">Please enter a post title.</mat-error>
+        </mat-form-field>
+        <button mat-raised-button color="accent" type="submit">Save Post</button>
     </form>
-
 </mat-card>
