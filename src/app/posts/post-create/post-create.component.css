@@ -3,3 +3,14 @@ textarea {
   width: 100%;
 }
 /*# sourceMappingURL=post-create.component.css.map */
+
+
+
+mat-spinner {
+  margin: auto;
+}
+
+
+input[type="file"] {
+  visibility: hidden;
+}
