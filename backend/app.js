@@ -1,5 +1,5 @@
 const express = require('express');
-
+const path = require("path");
 const app = express();
 const bodyParser = require("body-parser");
 
@@ -16,7 +16,7 @@ db.once('open',() => console.log('connected to database'))
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-//app.use("/images", express.static(path.join("backend/images")));
+app.use("/images", express.static(path.join("backend/images")));
 
 
 app.use((req, res, next) => {
