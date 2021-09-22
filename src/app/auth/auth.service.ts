@@ -12,7 +12,7 @@ export class AuthService {
   private isAuthenticated = false;
   private token: string;
   private tokenTimer: NodeJS.Timer; //or any
-  private authStatusListner = new Subject<boolean>()
+  private authStatusListener = new Subject<boolean>()
   private userId: string
   
   constructor(private http: HttpClient,private router: Router) { }
@@ -26,7 +26,7 @@ createUser(email: string, password: string) {
       .subscribe(() => {
        this.router.navigate(['/'])
       }, error => {
-        this.authStatusListner.next(false)
+        this.authStatusListener.next(false)
       }
       
     );
@@ -49,7 +49,7 @@ login(email: string, password: string) {
           
           this.userId = response.userId
 
-          this.authStatusListner.next(true)
+          this.authStatusListener.next(true)
           const now = new Date()
           const expirationDate = new Date(now.getTime() + expiresInDuration * 1000)
           console.log(expirationDate)
@@ -57,9 +57,8 @@ login(email: string, password: string) {
           this.router.navigate(['/'])
         }
       }, error => {
-        this.authStatusListner.next(false)
-      }
-      )
+        this.authStatusListener.next(false)
+      })
   }
 
 
@@ -69,7 +68,7 @@ login(email: string, password: string) {
   }
 
   getAuthSatusListner() {
-    return this.authStatusListner.asObservable()
+    return this.authStatusListener.asObservable()
   }
 
 
@@ -94,7 +93,7 @@ login(email: string, password: string) {
       this.isAuthenticated = true
       this.userId = authInformation.userId
       this.setAuthTimer(expireIn / 1000)
-      this.authStatusListner.next(true)
+      this.authStatusListener.next(true)
     }
 }
 
@@ -104,7 +103,7 @@ login(email: string, password: string) {
   logout() {
     this.token = null
     this.isAuthenticated = false
-    this.authStatusListner.next(false)
+    this.authStatusListener.next(false)
     clearTimeout(this.tokenTimer)
     this.clearAuthData()
     this.userId = null;

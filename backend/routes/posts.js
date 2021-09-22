@@ -36,6 +36,7 @@ const storage = multer.diskStorage({
   }
 });
 
+
 router.post(
   "",
   //auth middleware
@@ -61,16 +62,18 @@ router.post(
           id: createdPost._id
         }
       });
+    })
+      .catch(error => {
+        res.status(500).json({
+        message: "creating post failed",
+      })
     });
-  }
-);
+  });
 
 router.put(
   "/:id",
-
   //auth middleware
   checkAuth,
-
 
   multer({ storage: storage }).single("image"),
   (req, res, next) => {
@@ -93,9 +96,13 @@ router.put(
       } else {
          res.status(401).json({ message: "not authorized!" });
       }
-    });
-  }
-);
+    }).catch(error => {
+        res.status(500).json({
+        message: "updating post failed",
+      });
+  });
+})
+
 
 router.get("", (req, res, next) => {
   console.log(req.query)
@@ -117,8 +124,13 @@ router.get("", (req, res, next) => {
         posts: fetchedPosts,
         maxPosts: count
       });
-    });
+    }).catch(error => {
+        res.status(500).json({
+        message: "fetching posts failed",
+        });
+      })
 });
+
 
 router.get("/:id", (req, res, next) => {
   Post.findById(req.params.id).then(post => {
@@ -127,8 +139,13 @@ router.get("/:id", (req, res, next) => {
     } else {
       res.status(404).json({ message: "Post not found!" });
     }
-  });
+  }).catch(error => {
+        res.status(500).json({
+        message: "getting post failed",
+        });
+    })
 });
+
 
 router.delete("/:id",   checkAuth,   (req, res, next) => {
   Post.deleteOne({ _id: req.params.id , creator: req.userData.userId }).then(result => {
@@ -138,7 +155,11 @@ router.delete("/:id",   checkAuth,   (req, res, next) => {
       } else {
          res.status(401).json({ message: "not authorized!" });
       }
-  });
-});
+  }).catch(error => {
+        res.status(500).json({
+        message: "deleting post failed",
+      });
+    });
+})
 
 module.exports = router;
