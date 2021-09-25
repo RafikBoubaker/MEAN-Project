@@ -1,0 +1,5 @@
+{
+    "env" : {
+        "JWT_KEY" : "secret_word_for_the_hash"
+    }
+}
